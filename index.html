@@ -15,8 +15,8 @@
     let img = document.getElementById("pepega");
     let img2 = document.getElementById("pepeg");
     let x = canvas.width / 2, y = canvas.height / 2, speed = 10;
-    let posx =Math.floor(Math.random()*canvas.width);;
-    let posy=Math.floor(Math.random()*canvas.height);;
+    let posx = [];
+    let posy = [];
     let interval = 1000;
     let intervalId;
     let currentFunct;
@@ -24,22 +24,24 @@
     function startUp() {
         clearInterval(intervalId);
         clearImg();
-        //posx =Math.floor(Math.random()*canvas.width);
-       // posy=Math.floor(Math.random()*canvas.height);
         x = canvas.width / 2, y = canvas.height / 2, speed = 10;
         drawImg(x, y);
         interval = 1000;
-        intervalId="";
-        currentFunct="";
+        intervalId = "";
+        currentFunct = "";
     }
 
     function drawImg(x, y) {
         ctx.drawImage(img, x, y);
-        drawOp(posx,posy);
+        drawOp(posx, posy);
     }
 
-    function drawOp(posx,posy) {
-        ctx.drawImage(img2, posx, posy,80,80);
+    function drawOp(posx, posy) {
+        randomPos();
+       for(let i =0; i<5;i++){
+           ctx.drawImage(img2, posx[i], posy[i], 80, 80);
+       }
+       console.log(posx);
     }
 
     function clearImg() {
@@ -71,25 +73,21 @@
             case 37:
                 clearInterval(intervalId);
                 intervalId = setInterval(moveLeft, interval);
-                console.log(x,y);
                 break;
 
             case 38:
                 clearInterval(intervalId);
                 intervalId = setInterval(moveUp, interval);
-                console.log(x,y);
                 break;
 
             case 39:
                 clearInterval(intervalId);
                 intervalId = setInterval(moveRight, interval);
-                console.log(x,y);
                 break;
 
             case 40:
                 clearInterval(intervalId);
                 intervalId = setInterval(moveDown, interval);
-                console.log(x,y);
                 break;
         }
     }
@@ -135,19 +133,20 @@
     }
 
     function check() {
-
-        if (x >posx && x<(posx +80) && y>posy && y<(posy+80)){
-            alert("Hit OP");
-            startUp();
+        for(let i = 0 ; i<5;i++){
+            if (x > posx[i] && x < (posx[i] + 80) && y > posy[i] && y < (posy[i] + 80)) {
+                alert("Game Over");
+                startUp();
+            }
         }
-
     }
 
-    //function randomPos() {
-       // posx = Math.floor(Math.random()*canvas.width);
-       // posy = Math.floor(Math.random()*canvas.height);
-       // console.log(posy,posx);
-    //}
+    function randomPos() {
+        for (let i = 0; i < 5; i++) {
+            posx.push(Math.floor(Math.random()*canvas.width));
+            posy.push(Math.floor(Math.random()*canvas.height));
+        }
+    }
 
     function doReady() {
         window.addEventListener('keydown', moveImg);
