@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body onload="startUp(); doReady()">
+<img id="pepega" hidden src="download.png">
+<img id="pepeg" hidden src="8435_voteno.png">
+<canvas id="myCanvas" width="1000" height="600" style="border: 2px solid darkred"></canvas>
+</body>
+<script>
+    let canvas = document.getElementById("myCanvas");
+    let ctx = canvas.getContext("2d");
+    let img = document.getElementById("pepega");
+    let img2 = document.getElementById("pepeg");
+    let x = canvas.width / 2, y = canvas.height / 2, speed = 10;
+    let interval = 1000;
+    let intervalId;
+    let currentFunct;
+
+    function startUp() {
+        clearInterval(intervalId);
+        clearImg();
+        x = canvas.width / 2, y = canvas.height / 2, speed = 10;
+        drawImg(x, y);
+        interval = 1000;
+        intervalId="";
+        currentFunct="";
+    }
+
+    function drawImg(x, y) {
+        ctx.drawImage(img, x, y);
+        drawOp();
+    }
+
+    function drawOp() {
+        ctx.drawImage(img2, 100, 100,80,80);
+    }
+
+    function clearImg() {
+        ctx.clearRect(0, 0, 1000, 600);
+    }
+
+    function moveImg(evt) {
+
+        switch (evt.which) {
+            case 17 :
+                clearInterval(intervalId);
+                speedUp();
+                switch (currentFunct) {
+                    case 'moveLeft':
+                        intervalId = setInterval(moveLeft, interval);
+                        break;
+                    case 'moveRight':
+                        intervalId = setInterval(moveRight, interval);
+                        break;
+                    case 'moveUp':
+                        intervalId = setInterval(moveUp, interval);
+                        break;
+                    case 'moveDown':
+                        intervalId = setInterval(moveDown, interval);
+                        break;
+                }
+                break;
+
+            case 37:
+                clearInterval(intervalId);
+                intervalId = setInterval(moveLeft, interval);
+                console.log(x,y);
+                break;
+
+            case 38:
+                clearInterval(intervalId);
+                intervalId = setInterval(moveUp, interval);
+                console.log(x,y);
+                break;
+
+            case 39:
+                clearInterval(intervalId);
+                intervalId = setInterval(moveRight, interval);
+                console.log(x,y);
+                break;
+
+            case 40:
+                clearInterval(intervalId);
+                intervalId = setInterval(moveDown, interval);
+                console.log(x,y);
+                break;
+        }
+    }
+
+    function moveLeft() {
+        clearImg();
+        x -= speed;
+        if (x < 0) x = 0;
+        drawImg(x, y);
+        currentFunct = "moveLeft";
+        check();
+    }
+
+    function moveRight() {
+        x += speed;
+        if (x > 970) x = 970;
+        clearImg();
+        drawImg(x, y);
+        currentFunct = "moveRight";
+        check();
+    }
+
+    function moveUp() {
+        clearImg();
+        y -= speed;
+        if (y < 0) y = 0;
+        drawImg(x, y);
+        currentFunct = "moveUp";
+        check();
+    }
+
+    function moveDown() {
+        y += speed;
+        if (y > 570) y = 570;
+        clearImg();
+        drawImg(x, y);
+        currentFunct = "moveDown";
+        check();
+    }
+
+    function speedUp() {
+        interval -= 150;
+    }
+
+    function check() {
+        if ((x==100 && y>100 && y<180) ||(y==100 && x>100 && x<180) || y==180 && x>100 && x<180() ) {
+            alert("Hit OP");
+            startUp();
+        }
+
+    }
+
+    function doReady() {
+        window.addEventListener('keydown', moveImg);
+    }
+
+
+</script>
+</html>
