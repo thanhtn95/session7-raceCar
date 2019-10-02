@@ -7,21 +7,35 @@
 <body onload="startUp(); doReady()">
 <img id="pepega" hidden src="download.png">
 <img id="pepeg" hidden src="8435_voteno.png">
-<canvas id="myCanvas" width="1000" height="600" style="border: 2px solid darkred"></canvas>
+<img id="coin" hidden src="coin.jpg">
+
+
+    <canvas id="myCanvas" width="1000" height="600" style="border: 2px solid darkred"></canvas>
+<p  id="coinNum" style="font-weight: bolder">Coin :</p>
+
 </body>
 <script>
     let canvas = document.getElementById("myCanvas");
     let ctx = canvas.getContext("2d");
     let img = document.getElementById("pepega");
     let img2 = document.getElementById("pepeg");
+    let img3 = document.getElementById("coin");
+    let dis = document.getElementById("coinNum");
     let x = canvas.width / 2, y = canvas.height / 2, speed = 10;
+    let coinN = 0;
     let posx = [];
     let posy = [];
+    let posCx =[0];
+    let posCy =[0];
     let interval = 1000;
     let intervalId;
     let currentFunct;
 
     function startUp() {
+        randomPos();
+         posCx =[0];
+         posCy =[0];
+        coinN =0;
         clearInterval(intervalId);
         clearImg();
         x = canvas.width / 2, y = canvas.height / 2, speed = 10;
@@ -29,19 +43,24 @@
         interval = 1000;
         intervalId = "";
         currentFunct = "";
+        dis.innerText="Coin: "+coinN;
     }
 
     function drawImg(x, y) {
         ctx.drawImage(img, x, y);
         drawOp(posx, posy);
+        if(posCx.length!=0){
+            drawCoin(posCx[0],posCy[0]);
+        }
     }
 
     function drawOp(posx, posy) {
-        randomPos();
-       for(let i =0; i<5;i++){
+       for(let i =0; i<posx.length;i++){
            ctx.drawImage(img2, posx[i], posy[i], 80, 80);
        }
-       console.log(posx);
+    }
+    function drawCoin(x,y) {
+        ctx.drawImage(img3,x,y,40,40);
     }
 
     function clearImg() {
@@ -129,22 +148,33 @@
     }
 
     function speedUp() {
-        interval -= 150;
+        interval -= 100;
     }
 
     function check() {
         for(let i = 0 ; i<5;i++){
-            if (x > posx[i] && x < (posx[i] + 80) && y > posy[i] && y < (posy[i] + 80)) {
+            if (x >= posx[i] && x <= (posx[i] + 80) && y >= posy[i] && y <= (posy[i] + 80)) {
+                posx=[];
+                posy=[];
                 alert("Game Over");
                 startUp();
+            }
+        }
+        if(posCx.length !=0){
+            if(x>=0 && x<=40 && y>=0 && y<=40){
+                posCx.pop();
+                posCy.pop();
+                coinN++;
+                dis.innerText="Coin: "+coinN;
+                drawImg();
             }
         }
     }
 
     function randomPos() {
         for (let i = 0; i < 5; i++) {
-            posx.push(Math.floor(Math.random()*canvas.width));
-            posy.push(Math.floor(Math.random()*canvas.height));
+            posx.push(Math.floor(Math.random()*(canvas.width-80)));
+            posy.push(Math.floor(Math.random()*(canvas.height-80)));
         }
     }
 
