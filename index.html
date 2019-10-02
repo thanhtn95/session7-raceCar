@@ -15,6 +15,8 @@
     let img = document.getElementById("pepega");
     let img2 = document.getElementById("pepeg");
     let x = canvas.width / 2, y = canvas.height / 2, speed = 10;
+    let posx =Math.floor(Math.random()*canvas.width);;
+    let posy=Math.floor(Math.random()*canvas.height);;
     let interval = 1000;
     let intervalId;
     let currentFunct;
@@ -22,6 +24,8 @@
     function startUp() {
         clearInterval(intervalId);
         clearImg();
+        //posx =Math.floor(Math.random()*canvas.width);
+       // posy=Math.floor(Math.random()*canvas.height);
         x = canvas.width / 2, y = canvas.height / 2, speed = 10;
         drawImg(x, y);
         interval = 1000;
@@ -31,11 +35,11 @@
 
     function drawImg(x, y) {
         ctx.drawImage(img, x, y);
-        drawOp();
+        drawOp(posx,posy);
     }
 
-    function drawOp() {
-        ctx.drawImage(img2, 100, 100,80,80);
+    function drawOp(posx,posy) {
+        ctx.drawImage(img2, posx, posy,80,80);
     }
 
     function clearImg() {
@@ -131,12 +135,19 @@
     }
 
     function check() {
-        if ((x==100 && y>100 && y<180) ||(y==100 && x>100 && x<180) || y==180 && x>100 && x<180() ) {
+
+        if (x >posx && x<(posx +80) && y>posy && y<(posy+80)){
             alert("Hit OP");
             startUp();
         }
 
     }
+
+    //function randomPos() {
+       // posx = Math.floor(Math.random()*canvas.width);
+       // posy = Math.floor(Math.random()*canvas.height);
+       // console.log(posy,posx);
+    //}
 
     function doReady() {
         window.addEventListener('keydown', moveImg);
